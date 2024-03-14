@@ -5,7 +5,7 @@
 Bilateral Event Mining and Complementary for Event Stream Super-Resolution </sub><br><sub>[Paper]() | [Supp]() | [Video]() </sub><br>
 
 <p align="left">
-    <img src="doc/teaser.jpg"/>
+    <img src=""/>
   <br>
 </p>
 
