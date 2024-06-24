@@ -5,7 +5,7 @@
 Bilateral Event Mining and Complementary for Event Stream Super-Resolution
 
 <p align="left">
-    <img src="BMCNet.png"/>
+    <img src="models/BMCNet.png"/>
   <br>
 </p>
 
