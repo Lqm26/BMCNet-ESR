@@ -1,0 +1,4 @@
+*.pyc
+./upsampling/example/*
+./tmp/*
+.vscode/*

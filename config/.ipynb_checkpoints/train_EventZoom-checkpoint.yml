@@ -1,0 +1,139 @@
+experiment: BMCNet
+
+SCALE: &SCALE 4 # 2/4
+SEQN: &SEQN 2
+SEQL: &SEQL 9
+TIME_BINS: &TIME_BINS 1
+ORI_SCALE: &ORI_SCALE down4
+MODE: &MODE events 
+WINDOW: &WINDOW 1024
+SLIDING_WINDOW: &SLIDING_WINDOW 512
+NEED_GT_FRAME: &NEED_GT_FRAME False
+NEED_GT_EVENTS: &NEED_GT_EVENTS True
+
+PATH_TO_OUTPUT: &PATH_TO_OUTPUT /model/
+PATH_TO_TRAIN: &PATH_TO_TRAIN datalist/eventzoom_train.txt
+PATH_TO_VALID: &PATH_TO_VALID datalist/eventzoom_valid.txt
+
+TIME_RESOLUTION: &TIME_RESOLUTION 256
+INPUT_TENSOR_STRIDE: &INPUT_TENSOR_STRIDE 1
+
+model:
+    name: BMCNet_eventzoom_4x 
+    args: 
+        inch: 2
+        basech: 8
+        num_frame: *SEQN
+
+optimizer:
+    name: Adam
+    args:
+        lr: !!float 1e-4
+        # momentum: 0.9
+        weight_decay: !!float 1e-5
+        amsgrad: True
+
+lr_scheduler:
+    name: ExponentialLR
+    args:
+        # step_size: 10000  # epochs or iterations according to the training mode
+        gamma: 0.95
+
+trainer:
+    output_path: *PATH_TO_OUTPUT
+    epoch_based_train:
+        enabled: False
+        epochs: 2
+        save_period: 1 # save model every 'save_period' epoch
+        train_log_step: 100 # total number for printing train log in one epoch
+        valid_log_step: 100 # total number for printing train log in one epoch
+        valid_step: 1 # epoch steps for validation
+    iteration_based_train:
+        enabled: True
+        iterations: 100000
+        save_period: 5000 # save model every 'save_period' iteration
+        train_log_step: 50 # iteration steps for printing train log
+        valid_log_step: 50 # iteration steps for printing valid log
+        valid_step: 1000 # iteration steps for validation
+        lr_change_rate: 4000 # iteration steps to perform "lr_scheduler.step()"
+    monitor: 'min valid_loss'
+    early_stop: 100000000 # max valid instervals to continue to train 
+    tensorboard: True
+    vis: 
+        enabled: True
+        train_img_writer_num: 20 # iteration steps for visualizing train items
+        valid_img_writer_num: 20  # iteration steps for visualizing valid items
+
+train_dataloader:
+    use_ddp: False
+    path_to_datalist_txt: *PATH_TO_TRAIN
+    time_resolution: *TIME_RESOLUTION
+    batch_size: 2
+    shuffle: True
+    num_workers: 8
+    pin_memory: True
+    drop_last: True
+    dataset:
+        scale: *SCALE
+        ori_scale: *ORI_SCALE
+        time_bins: *TIME_BINS
+        need_gt_frame: *NEED_GT_FRAME
+        need_gt_events: *NEED_GT_EVENTS
+        mode: *MODE 
+        window:  *WINDOW
+        sliding_window: *SLIDING_WINDOW
+        data_augment:
+            enabled: True
+            augment: ["Horizontal", "Vertical", "Polarity"]
+            augment_prob: [0.5, 0.5, 0.5]
+        hot_filter:
+            enabled: False
+            max_px: 100
+            min_obvs: 5
+            max_rate: 0.8
+        sequence:
+            sequence_length: *SEQL
+            seqn: *SEQN
+            step_size: null
+            pause:
+                enabled: False
+                proba_pause_when_running: 0.05
+                proba_pause_when_paused: 0.9
+
+valid_dataloader:
+    use_ddp: False
+    path_to_datalist_txt: *PATH_TO_VALID
+    time_resolution: *TIME_RESOLUTION
+    batch_size: 2
+    shuffle: False
+    num_workers: 8
+    pin_memory: True
+    drop_last: False
+    dataset:
+        scale: *SCALE
+        ori_scale: *ORI_SCALE
+        time_bins: *TIME_BINS
+        need_gt_frame: *NEED_GT_FRAME
+        need_gt_events: *NEED_GT_EVENTS
+        mode: *MODE 
+        window: *WINDOW
+        sliding_window: *SLIDING_WINDOW
+        data_augment:
+            enabled: False
+            augment: ["Horizontal", "Vertical", "Polarity"]
+            augment_prob: [0.5, 0.5, 0.5]
+        hot_filter:
+            enabled: False
+            max_px: 100
+            min_obvs: 5
+            max_rate: 0.8
+        sequence:
+            sequence_length: *SEQL
+            seqn: *SEQN
+            step_size: null
+            pause:
+                enabled: False
+                proba_pause_when_running: 0.05
+                proba_pause_when_paused: 0.9
+
+
