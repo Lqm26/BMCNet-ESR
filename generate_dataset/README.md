@@ -1,4 +1,4 @@
-# dataset preparation
+# Dataset Preparation
 
 ## real-world data
 First download real data from the [site](https://sites.google.com/view/EventZoom), then run `convert_eventzoom.py`.
