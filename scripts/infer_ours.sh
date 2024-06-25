@@ -1,4 +1,4 @@
-# BMCNet_4x  NFS
+# BMCNet_4x  NFS_syn
 python  infer_BMCNet.py \
         --model_path /path/to/model \
         --data_list /path/to/data.txt  \
@@ -15,7 +15,7 @@ python  infer_BMCNet.py \
         --sliding_window 1024 \
         --need_gt_events 
 
-# BMCNet_4x  RGB
+# BMCNet_4x  RGB_syn
 python  infer_BMCNet.py \
         --model_path /path/to/model \
         --data_list /path/to/data.txt  \
@@ -33,7 +33,7 @@ python  infer_BMCNet.py \
         --need_gt_events 
 
 
-# BMCNet_4x  eventzoom
+# BMCNet_4x  EventNFS
 python  infer_BMCNet.py \
         --model_path /path/to/model \
         --data_list /path/to/data.txt  \
