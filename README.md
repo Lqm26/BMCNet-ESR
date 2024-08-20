@@ -1,6 +1,6 @@
 # Bilateral Event Mining and Complementary for Event Stream Super-Resolution
 
-**Official PyTorch Implementation of the CVPR 2024 Oral Paper (only 90 of the 2719 accepted papers 🔥).**
+**Official PyTorch Implementation of the BMCNet (CVPR 2024 Oral 🔥).**
 
 Bilateral Event Mining and Complementary for Event Stream Super-Resolution
 
