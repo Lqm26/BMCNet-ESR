@@ -9,7 +9,7 @@ python  infer_BMCNet.py \
         --seql 9 \
         --step_size 1 \
         --time_bins 1 \
-        --ori_scale down8 \
+        --ori_scale down16 \
         --mode events \
         --window 2048 \
         --sliding_window 1024 \
